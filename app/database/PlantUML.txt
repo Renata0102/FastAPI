@@ -1,0 +1,48 @@
+@startuml
+hide circle
+
+entity User {
+  * id : integer <<PK>>
+  --
+  login : string
+  is_admin : boolean
+  password : string
+}
+
+entity Account {
+  * id : integer <<PK>>
+  --
+  account_name : string
+  amount : float
+  * user_id : integer <<FK>>
+}
+
+entity Transaction {
+  * id : integer <<PK>>
+  --
+  category : string
+  amount : float
+  date : date
+  * user_id : integer <<FK>>
+  * account_id : integer <<FK>>
+}
+
+User ||--o{ Account : "has"
+User ||--o{ Transaction : "makes"
+Account ||--o{ Transaction : "contains"
+
+note right of User
+  Пользователь системы
+  Может быть администратором
+end note
+
+note bottom of Account
+  Финансовый счет пользователя
+  Имеет название и содержит текущий баланс
+end note
+
+note bottom of Transaction
+  Финансовая операция
+  Имеет категорию и дату
+end note
+@enduml
